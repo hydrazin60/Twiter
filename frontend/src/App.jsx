@@ -1,9 +1,10 @@
  import React from 'react'
+import Home from './components/Home'
  
  export default function App() {
    return (
-     <div className='text-3xl'>
-       App
+     <div className='text-3xl  bg-black text-white w-full h-screen'>
+       <Home/>
      </div>
    )
  }
