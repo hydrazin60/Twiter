@@ -9,7 +9,6 @@ export default function MiddlePart() {
       <Tweet />
       <Tweet />
       <Tweet />
-      
     </div>
   );
 }
