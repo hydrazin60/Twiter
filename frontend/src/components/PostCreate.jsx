@@ -29,7 +29,7 @@ export default function PostCreate() {
               className="w-full outline-none border-none ml-2 bg-black  "
             />
           </div>
-          <div className=" flex justify-between p-4 border-b border-gray-300 border-opacity-40">
+          <div className=" flex justify-between p-4 border-b border-gray-500 border-opacity-40">
             <div>
               <CiImageOn />
             </div>

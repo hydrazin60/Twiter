@@ -5,9 +5,9 @@ import MiddlePart from "./MiddlePart";
 export default function Home() {
   return (
     <div className="flex justify-between w-[80%] mx-auto  ">
-      <LeftSidebar/>
-      <MiddlePart/>
-      <RightSidebar/>
+      <MiddlePart />
     </div>
   );
 }
+//  <LeftSidebar />
+// <RightSidebar />
