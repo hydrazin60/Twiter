@@ -5,16 +5,16 @@ import { BiRepost } from "react-icons/bi";
 
 export default function Tweet() {
   return (
-    <div className=" border-b border-gray-500 border-opacity-80">
+    <div className=" border-b border-gray-500 border-opacity-80 text-lg">
       <div>
         <div>
           <div className="flex p-3 cursor-pointer ">
             <Avatar
-              size="40"
+              size="50"
               round={true}
               src="https://scontent.fktm21-1.fna.fbcdn.net/v/t1.6435-9/123201081_102426248343348_4913614110525775662_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=5f2048&_nc_ohc=KWl6ODUd8jwQ7kNvgHMI6Ou&_nc_ht=scontent.fktm21-1.fna&oh=00_AYBZAxnH2fDVH5TBAC11SWb50c36AsJ6SLTXPZ5sXo4OGQ&oe=66A09B6C"
             />
-            <div className="flex items-center">
+            <div className="flex items-center ml-2">
               <h1 className="font-bold text-lg">Jiban Pandey</h1>
               <p className="text-gray-500 text-sm ml-2">@jibanPandey</p>
             </div>

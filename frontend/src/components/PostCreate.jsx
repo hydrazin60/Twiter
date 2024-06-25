@@ -18,7 +18,7 @@ export default function PostCreate() {
           <div className="flex items-center p-4 ">
             <div>
               <Avatar
-                size="40"
+                size="50"
                 round={true}
                 src="https://scontent.fktm21-1.fna.fbcdn.net/v/t39.30808-6/360085714_1616525928846282_1033599316022958055_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=5f2048&_nc_ohc=Fx9XXv7oMmgQ7kNvgGOcNFQ&_nc_ht=scontent.fktm21-1.fna&oh=00_AYDSrhoiTEkJgj4AG2HQY1u_XYNmqNaTEYGb-3-dZ7Em7Q&oe=667E50BD"
               />
