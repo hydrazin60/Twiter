@@ -4,7 +4,7 @@ dotenv.config();
 
 const isAuthentication = async (req, res, next) => {
   try {
-    const { token } = res.cookies;
+    const { token } = req.cookies;
     console.log(token);
     if (!token) {
       return res.status(401).json({
@@ -12,11 +12,17 @@ const isAuthentication = async (req, res, next) => {
         success: false,
       });
     }
-    const decode = await jwt.verify(token, process.env.JWT_SECRET);
-    console.log(decode);
-    req.user = decode.id;
+    const verifyToken = await jwt.verify(token, process.env.JWT_SECRET);
+    console.log(verifyToken);
+    req.user = verifyToken.userId;
     next();
   } catch (error) {
     console.log(error);
+    return res.status(500).json({
+      message: "Server error",
+      success: false,
+    });
   }
 };
+
+export default isAuthentication;
