@@ -91,3 +91,15 @@ export const Login = async (req, res) => {
     });
   }
 };
+
+// logout
+
+export const Logout = (req, res) => {
+  return res
+    .cookie("token", "", { expires: new Date(Date.now()) })
+    .json({
+      message: "Logged out successfully",
+      success: true,
+    });
+};
+
