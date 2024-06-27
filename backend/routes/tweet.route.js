@@ -1,9 +1,34 @@
-import express from "express"
-import { createTweet, deleteTweet } from "../controllers/tweet.controller.js";
-import isAuthentication from "../config/auth.js"
-const  TweetRoute = express.Router();
+import express from "express";
+import {
+  createTweet,
+  deleteTweet,
+  likeAndDislike,
+} from "../controllers/tweet.controller.js";
+import isAuthentication from "../config/auth.js";
 
-TweetRoute.route("/create").post(  isAuthentication , createTweet)
-TweetRoute.route("/tweetdelete/:id").delete(  isAuthentication , deleteTweet )
+const TweetRoute = express.Router();
 
-export default  TweetRoute ;
+TweetRoute.route("/create").post(isAuthentication, createTweet);
+TweetRoute.route("/tweetdelete/:id").delete(isAuthentication, deleteTweet);
+TweetRoute.route("/like/:id").put(isAuthentication, likeAndDislike);
+
+export default TweetRoute;
+
+
+
+
+
+
+// import express from "express";
+// import {
+//   createTweet,
+//   deleteTweet,
+//   likeAndDislike,
+// } from "../controllers/tweet.controller.js";
+// import isAuthentication from "../config/auth.js";
+// const TweetRoute = express.Router();
+
+// TweetRoute.route("/create").post(isAuthentication, createTweet);
+// TweetRoute.route("/tweetdelete/:id").delete(isAuthentication, deleteTweet);
+// TweetRoute.route("like/:id").put(isAuthentication, likeAndDislike);
+// export default TweetRoute;
