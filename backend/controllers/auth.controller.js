@@ -138,6 +138,4 @@ export const Bookmark = async (req, res) => {
   }
 };
 
-export const check = (req , res)=>{
-res.json({messan  :" hello world" })
-}
+ 
