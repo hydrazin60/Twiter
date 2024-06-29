@@ -94,16 +94,12 @@ export const Login = async (req, res) => {
 // logout
 
 export const Logout = (req, res) => {
-  return res
-    .cookie("token", "", { expires: new Date(Date.now()) })
-    .json({
-      message: "Logged out successfully",
-      success: true,
-    });
+  return res.cookie("token", "", { expires: new Date(Date.now()) }).json({
+    message: "Logged out successfully",
+    success: true,
+  });
 };
-
-
- 
+// bookmark
 export const Bookmark = async (req, res) => {
   try {
     const loggedInUserId = req.body.id;
@@ -113,28 +109,35 @@ export const Bookmark = async (req, res) => {
     if (!user) {
       return res.status(404).json({
         message: "User not found",
-        success: false
+        success: false,
       });
     }
-
     if (user.bookmarks.includes(tweetId)) {
-      await User.findByIdAndUpdate(loggedInUserId, { $pull: { bookmarks: tweetId } });
+      await User.findByIdAndUpdate(loggedInUserId, {
+        $pull: { bookmarks: tweetId },
+      });
       return res.status(200).json({
         message: "Removed from bookmarks",
-        success: true
+        success: true,
       });
     } else {
-      await User.findByIdAndUpdate(loggedInUserId, { $push: { bookmarks: tweetId } });
+      await User.findByIdAndUpdate(loggedInUserId, {
+        $push: { bookmarks: tweetId },
+      });
       return res.status(200).json({
         message: "Saved to bookmarks",
-        success: true
+        success: true,
       });
     }
   } catch (error) {
     return res.status(500).json({
       message: "An error occurred",
       success: false,
-      error: error.message
+      error: error.message,
     });
   }
 };
+
+export const check = (req , res)=>{
+res.json({messan  :" hello world" })
+}
