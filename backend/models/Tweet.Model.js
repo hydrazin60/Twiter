@@ -17,12 +17,6 @@ const tweetSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    bookmarks: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
     images: [
       {
         type: String,

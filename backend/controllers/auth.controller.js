@@ -10,7 +10,6 @@ export const SignUp = async (req, res) => {
         success: false,
       });
     }
-
     const RegisterUser = await User.findOne({ email });
     if (RegisterUser) {
       return res.status(400).json({
@@ -101,5 +100,41 @@ export const Logout = (req, res) => {
       message: "Logged out successfully",
       success: true,
     });
+};
+
+
+export const Bookmark = async (req, res) => {
+  try {
+    const loggedInUserId = req.body.id;
+    const tweetId = req.params.id;
+    const user = await User.findById(loggedInUserId);
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+        success: false
+      });
+    }
+
+    if (user.bookmarks.includes(tweetId)) {
+      await User.findByIdAndUpdate(loggedInUserId, { $pull: { bookmarks: tweetId } });
+      return res.status(200).json({
+        message: "Removed from bookmarks",
+        success: true
+      });
+    } else {
+      await User.findByIdAndUpdate(loggedInUserId, { $push: { bookmarks: tweetId } });
+      return res.status(200).json({
+        message: "Saved to bookmarks",
+        success: true
+      });
+    }
+  } catch (error) {
+    return res.status(500).json({
+      message: "An error occurred",
+      success: false,
+      error: error.message
+    });
+  }
 };
 
