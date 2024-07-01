@@ -150,3 +150,30 @@ export const getAllTweets = async (req, res) => {
     });
   }
 };
+
+export const OnlyFollowingTweets = async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    const loggedInUser = await User.findById(id);
+    if (!loggedInUser) {
+      return res.status(404).json({
+        message: "User not found",
+        success: false,
+      });
+    }
+    const followingUserTweets = await Tweet.find({
+      userId: { $in: loggedInUser.following },
+    });
+    return res.status(200).json({
+      tweets: followingUserTweets,
+      success: true,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "An error occurred while retrieving tweets",
+      success: false,
+    });
+  }
+};
