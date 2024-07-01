@@ -162,3 +162,68 @@ export const getMyProfile = async (req, res) => {
       .json({ error: "An error occurred while retrieving the user profile" });
   }
 };
+//
+// export const MutualFriend = async (req, res) => {
+//   try {
+//     console.log("Request params:", req.params);
+//     const { id } = req.params;
+//     console.log("Received id:", id);
+//     if (!id) {
+//       return res.status(400).json({
+//         message: "User ID is required",
+//         success: false,
+//       });
+//     }
+//     const otherUsers = await User.find({ _id: { $ne: id } }).select(
+//       "-password"
+//     );
+//     if (!otherUsers || otherUsers.length === 0) {
+//       return res.status(404).json({
+//         message: "Currently do not have any users.",
+//         success: false,
+//       });
+//     }
+//     return res.status(200).json({
+//       otherUsers,
+//       success: true,
+//     });
+//   } catch (error) {
+//     console.log(error);
+//     return res.status(500).json({
+//       message: "An error occurred while retrieving users",
+//       success: false,
+//     });
+//   }
+// };
+
+export const MutualFriend = async (req, res) => {
+  try {
+    const { otherUserId } = req.params;
+    console.log("Received otherUserId:", otherUserId);
+    if (!otherUserId) {
+      return res.status(400).json({
+        message: "User ID is required",
+        success: false,
+      });
+    }
+    const otherUsers = await User.find({ _id: { $ne: otherUserId } }).select(
+      "-password"
+    );
+    if (!otherUsers || otherUsers.length === 0) {
+      return res.status(404).json({
+        message: "Currently do not have any users.",
+        success: false,
+      });
+    }
+    return res.status(200).json({
+      otherUsers,
+      success: true,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "An error occurred while retrieving users",
+      success: false,
+    });
+  }
+};
