@@ -138,4 +138,27 @@ export const Bookmark = async (req, res) => {
   }
 };
 
- 
+export const getMyProfile = async (req, res) => {
+  try {
+    const id = req.params.id;
+    if (!id) {
+      return res.status(400).json({
+        error: "User ID is required",
+        success: false,
+      });
+    }
+    const user = await User.findById(id).select("-password");
+    if (!user) {
+      return res.status(404).json({
+        error: "User not found",
+        success: false,
+      });
+    }
+    return res.status(200).json({ user });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .json({ error: "An error occurred while retrieving the user profile" });
+  }
+};

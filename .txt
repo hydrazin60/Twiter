@@ -1,0 +1,132 @@
+MongoDB offers a variety of queries to perform CRUD (Create, Read, Update, Delete) operations on its collections. Here's a summary of the key MongoDB queries and operations:
+
+Create
+Insert Documents
+insertOne(): Inserts a single document into a collection.
+insertMany(): Inserts multiple documents into a collection.
+javascript
+Copy code
+db.collection.insertOne({ name: "John", age: 30 });
+db.collection.insertMany([{ name: "John", age: 30 }, { name: "Jane", age: 25 }]);
+Read
+Find Documents
+find(): Retrieves documents from a collection.
+findOne(): Retrieves a single document from a collection.
+javascript
+Copy code
+db.collection.find({ age: { $gt: 20 } }); // Finds all documents where age > 20
+db.collection.findOne({ name: "John" }); // Finds a single document with name "John"
+Projection
+Specify the fields to include or exclude in the result set.
+javascript
+Copy code
+db.collection.find({}, { name: 1, age: 1, _id: 0 }); // Includes only name and age fields
+Sorting
+sort(): Sorts the documents in ascending (1) or descending (-1) order.
+javascript
+Copy code
+db.collection.find().sort({ age: -1 }); // Sorts by age in descending order
+Pagination
+limit(): Limits the number of documents returned.
+skip(): Skips a number of documents.
+javascript
+Copy code
+db.collection.find().limit(5); // Limits the result to 5 documents
+db.collection.find().skip(10); // Skips the first 10 documents
+Update
+Update Documents
+updateOne(): Updates a single document.
+updateMany(): Updates multiple documents.
+javascript
+Copy code
+db.collection.updateOne({ name: "John" }, { $set: { age: 31 } });
+db.collection.updateMany({ age: { $lt: 25 } }, { $set: { status: "minor" } });
+Replace Document
+replaceOne(): Replaces a single document.
+javascript
+Copy code
+db.collection.replaceOne({ name: "John" }, { name: "John", age: 32, city: "New York" });
+Delete
+Delete Documents
+deleteOne(): Deletes a single document.
+deleteMany(): Deletes multiple documents.
+javascript
+Copy code
+db.collection.deleteOne({ name: "John" });
+db.collection.deleteMany({ age: { $lt: 25 } });
+Array Operators
+$push and $pull
+push: Adds an element to an array.
+pull: Removes an element from an array.
+javascript
+Copy code
+db.collection.updateOne({ name: "John" }, { $push: { bookmarks: "tweetId" } });
+db.collection.updateOne({ name: "John" }, { $pull: { bookmarks: "tweetId" } });
+$addToSet
+Adds a value to an array unless the value is already present.
+javascript
+Copy code
+db.collection.updateOne({ name: "John" }, { $addToSet: { bookmarks: "tweetId" } });
+$pop
+Removes the first or last element of an array.
+javascript
+Copy code
+db.collection.updateOne({ name: "John" }, { $pop: { bookmarks: -1 } }); // Removes the first element
+db.collection.updateOne({ name: "John" }, { $pop: { bookmarks: 1 } });  // Removes the last element
+Aggregation
+Aggregation Pipeline
+aggregate(): Processes data records and returns computed results.
+javascript
+Copy code
+db.collection.aggregate([
+  { $match: { status: "active" } },
+  { $group: { _id: "$city", total: { $sum: "$age" } } },
+  { $sort: { total: -1 } }
+]);
+Indexes
+Create Indexes
+createIndex(): Creates an index on a field.
+javascript
+Copy code
+db.collection.createIndex({ name: 1 }); // Creates an index on the 'name' field in ascending order
+Drop Indexes
+dropIndex(): Drops a specific index.
+dropIndexes(): Drops all indexes in a collection.
+javascript
+Copy code
+db.collection.dropIndex("name_1"); // Drops the index on the 'name' field
+db.collection.dropIndexes();       // Drops all indexes
+Geospatial Queries
+Find Documents Near a Location
+find(): Finds documents near a specified point.
+javascript
+Copy code
+db.collection.find({
+  location: {
+    $near: {
+      $geometry: { type: "Point", coordinates: [ -73.9667, 40.78 ] },
+      $minDistance: 1000,
+      $maxDistance: 5000
+    }
+  }
+});
+Text Search
+Create Text Index
+createIndex(): Creates a text index on a field.
+javascript
+Copy code
+db.collection.createIndex({ name: "text", description: "text" });
+Search Using Text Index
+find(): Searches for documents using a text index.
+javascript
+Copy code
+db.collection.find({ $text: { $search: "coffee" } });
+These are some of the most commonly used MongoDB queries and operations. Each query has numerous options and can be combined in various ways to perform complex operations on your data. MongoDB's official documentation is a great resource for more detailed information on each of these queries and operations.
+
+
+
+
+
+
+
+
