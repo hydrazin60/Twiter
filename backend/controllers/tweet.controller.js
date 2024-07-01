@@ -105,9 +105,48 @@ export const likeAndDislike = async (req, res) => {
   }
 };
 
+// export const getAllTweets = async(req ,res)=>{
+//    try{
+//     const id =req.params.id;
+//     const loggedUser = await findById(id)
+//     const loggedInuserTweet = await Tweet.find({_id :id})
+//     const followingUserTweet = await Promise.all(loggedUser.following.map((otherUsersId)=>{
+//       return  Tweet.find({userId : otherUsersId})
+//     }))
+//     return res.status(200).json({
+//       tweets : loggedInuserTweet.concat(...followingUserTweet)
+//     })
+//    }catch(error){
+//     console.log(error);
+//    }
+// }
 
-
- 
-
-
- 
+export const getAllTweets = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const loggedUser = await User.findById(id);
+    if (!loggedUser) {
+      return res.status(404).json({
+        message: "User not found",
+        success: false,
+      });
+    }
+    const loggedInUserTweets = await Tweet.find({ userId: id });
+    const followingUserTweets = await Promise.all(
+      loggedUser.following.map((otherUserId) => {
+        return Tweet.find({ userId: otherUserId });
+      })
+    );
+    const allTweets = loggedInUserTweets.concat(...followingUserTweets);
+    return res.status(200).json({
+      tweets: allTweets,
+      success: true,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "An error occurred while retrieving tweets",
+      success: false,
+    });
+  }
+};

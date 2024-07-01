@@ -19,5 +19,7 @@ router.route("/bookmark/:id").put(isAuthentication, Bookmark);
 router.route("/profile/:id").get(isAuthentication, getMyProfile);
 // router.route("/mutualfriend/:id").get(isAuthentication, MutualFriend);
 router.route("/mutualfriend/:otherUserId").get(isAuthentication, MutualFriend);
-router.route("/following_unfollow/:id").post(isAuthentication , FollowORUnfollow )
+router
+  .route("/following_unfollow/:id")
+  .post(isAuthentication, FollowORUnfollow);
 export default router;
