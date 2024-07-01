@@ -227,3 +227,44 @@ export const MutualFriend = async (req, res) => {
     });
   }
 };
+
+export const FollowORUnfollow = async (req, res) => {
+  try {
+    const loggedInUserId = req.body.id;
+    const userId = req.params.id;
+
+    const loggedInUser = await User.findById(loggedInUserId);
+    const user = await User.findById(userId);
+
+    if (!loggedInUser || !user) {
+      return res.status(404).json({
+        message: "User not found",
+        success: false,
+      });
+    }
+
+    if (user.followers.includes(loggedInUserId)) {
+      // Unfollow
+      await user.updateOne({ $pull: { followers: loggedInUserId } });
+      await loggedInUser.updateOne({ $pull: { following: userId } });
+      return res.status(200).json({
+        message: "User unfollowed successfully",
+        success: true,
+      });
+    } else {
+      // Follow
+      await user.updateOne({ $push: { followers: loggedInUserId } });
+      await loggedInUser.updateOne({ $push: { following: userId } });
+      return res.status(200).json({
+        message: "User followed successfully",
+        success: true,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "An error occurred while updating follow status",
+      success: false,
+    });
+  }
+};
