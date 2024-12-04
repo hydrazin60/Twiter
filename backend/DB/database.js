@@ -1,18 +1,16 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+
 dotenv.config();
 
 const database = () => {
   mongoose
-    .connect( process.env.MONGO_RUI , {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    })
+    .connect(process.env.MONGO_RUI)
     .then(() => {
-      console.log("MongoDb Connected");
+      console.log("MongoDB Connected");
     })
     .catch((error) => {
-      console.log(error);
+      console.error("Error connecting to MongoDB:", error);
     });
 };
 
