@@ -66,7 +66,6 @@ export const Register = async (req, res) => {
     });
   }
 };
-
 export const emailVerification = async (req, res) => {
   try {
     const token = req.params.token;
@@ -152,6 +151,28 @@ export const Login = async (req, res) => {
       });
   } catch (error) {
     console.log(`Error in Login: ${error.message}`);
+    return res.status(500).json({
+      message: "Server error. Please try again later.",
+      success: false,
+      error: true,
+    });
+  }
+};
+export const Logout = async (req, res) => {
+  try {
+    return res
+      .clearCookie("token", {
+        httpOnly: true,
+        success: true,
+        samesite: "none",
+        secure: true,
+      })
+      .json({
+        message: "Logout Successfully",
+        success: true,
+      });
+  } catch (error) {
+    console.log(`Error in Logout: ${error.message}`);
     return res.status(500).json({
       message: "Server error. Please try again later.",
       success: false,
