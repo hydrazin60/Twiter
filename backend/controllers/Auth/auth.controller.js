@@ -2,7 +2,9 @@ import UserModel from "../../DB/models/user.models.js";
 import bcrypt from "bcrypt";
 import crypto from "crypto";
 import { sendVerificationEmail } from "../../utils/sendVerificationEmail.js";
-
+import { measureMemory } from "vm";
+import { error } from "console";
+import jwt from "jsonwebtoken";
 export const Register = async (req, res) => {
   try {
     const { FullName, email, password, phoneNumber } = req.body;
@@ -91,6 +93,69 @@ export const emailVerification = async (req, res) => {
     return res.status(500).json({
       message: "Server error. Please try again later.",
       success: false,
+    });
+  }
+};
+export const Login = async (req, res) => {
+  try {
+    const { email, password, phoneNumber } = req.body;
+    if (!password) {
+      return res.status(401).json({
+        message: "!please Enter a password",
+        success: false,
+        error: true,
+      });
+    }
+    if ((!email && !phoneNumber) || (email && phoneNumber)) {
+      return res.status(401).json({
+        message: "Provide either an email or phone number, not both.",
+        success: false,
+        error: true,
+      });
+    }
+    const isUserRegister = await UserModel.findOne({ email });
+    if (!isUserRegister) {
+      return res.status(401).json({
+        message: "you are not Register! please first go to Register page ",
+      });
+    }
+    const isPasswordMatch = await bcrypt.compare(
+      password,
+      isUserRegister.password
+    );
+    if (!isPasswordMatch) {
+      return res.status(4001).json({
+        message: "incorrect Password!! try Again",
+      });
+    }
+    const Token = await jwt.sign(
+      { userId: isUserRegister._id },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1d",
+      }
+    );
+    const userData = isUserRegister.toObject();
+    delete userData.password;
+    return res
+      .cookie("token", Token, {
+        httpOnly: true,
+        success: true,
+        samesite: "none",
+        secure: true,
+        maxAge: 24 * 60 * 60 * 1000,
+      })
+      .json({
+        message: "Login Successfully",
+        success: true,
+        data: userData,
+      });
+  } catch (error) {
+    console.log(`Error in Login: ${error.message}`);
+    return res.status(500).json({
+      message: "Server error. Please try again later.",
+      success: false,
+      error: true,
     });
   }
 };
