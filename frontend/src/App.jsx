@@ -1,10 +1,10 @@
 import React from "react";
-import Home from "./pages/Home";
+import { Button } from "./components/ui/button";
 
 export default function App() {
   return (
-    <div className="min-w-[100vw] min-h-[100vh]  ">
-      <Home />
+    <div className="text-4xl">
+      <Button>hello</Button>
     </div>
   );
 }
